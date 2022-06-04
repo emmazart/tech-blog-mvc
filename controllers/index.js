@@ -1,8 +1,9 @@
 const router = require('express').Router();
-// const apiRoutes = require('./api');
+const { appendFile } = require('fs');
+const apiRoutes = require('./api');
 // const homeRoutes = require('./home-routes'); // this will be used for the homepage
 
-
+router.use('/api', apiRoutes);
 
 // catchall
 router.use((req, res) => {
