@@ -9,9 +9,8 @@ const PORT = process.env.PORT || 3001;
 // session storate will go here
 
 // express handlebars
-const exphbs = require('express-handlebars');
-const hbs = exphbs.create({});
-app.engine('handlebars', hbs.engine);
+const { engine } = require('express-handlebars');
+app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 
 // express middleware
