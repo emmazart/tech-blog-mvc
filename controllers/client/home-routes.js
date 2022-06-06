@@ -4,7 +4,9 @@ const sequelize = require('../../config/connection');
 
 // homepage route
 router.get('/', (req, res) => {
-    // posts?
+    Post.findAll({
+        
+    })
 })
 
 router.get('/login', (req, res) => {
