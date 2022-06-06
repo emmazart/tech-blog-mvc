@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { format } = require('express/lib/response');
 const { User } = require('../../models');
 
 // GET     /api/users
@@ -40,6 +41,14 @@ router.get('/:id', (req, res) => {
 
 // POST     /api/users
 router.post('/', (req, res) => {
+
+    // expected format
+    // {
+    //     "username": "emmazart2222",
+    //     "email": "hello@test.com",
+    //     "password": "password"
+    // }
+    
     User.create({
         username: req.body.username,
         email: req.body.email,

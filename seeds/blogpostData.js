@@ -4,6 +4,10 @@ const blogpostData = [
     {
         title: 'My first blog post',
         user_id: 1
+    }, 
+    {
+        title: 'My second post!',
+        user_id: 1
     }
 ];
 
