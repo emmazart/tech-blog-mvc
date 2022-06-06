@@ -4,6 +4,12 @@
     <article>
         <h3>{{post.title}}</h3>
         <p>Posted by: {{post.user.username}}</p>
+
+        {{#with this.comment}}
+        <p>{{comment_text}} / {{user.username}}</p>
+        {{else}}
+        <p>Be the first to comment!</p>
+        {{/with}}
     </article>
     {{/each}}
 </section>
