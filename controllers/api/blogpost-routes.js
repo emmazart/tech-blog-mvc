@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { BlogPost, User } = require('../../models');
+const { BlogPost, User, Comment } = require('../../models');
 
 // GET     /api/blogposts
 router.get('/', (req, res) => {
@@ -10,6 +10,10 @@ router.get('/', (req, res) => {
             {
                 model: User,
                 attributes: ['username']
+            },
+            {
+                model: Comment,
+                attributes: ['comment_text']
             }
         ]
     })
