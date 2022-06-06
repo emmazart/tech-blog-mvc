@@ -37,8 +37,41 @@ router.get('/', (req, res) => {
 
 // GET    /api/comments/:id
 router.get('/:id', (req, res) => {
+    Comment.findOne({
+        where: {
+            id: req.params.id
+        },
+        attributes: ['id', 'comment_text', 'user_id', 'post_id'],
+        include: [
+            {
+                model: User,
+                attributes: ['username']
+            },
+            {
+                model: BlogPost,
+                attributes: ['title'],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['username']
+                    }
+                ]
+            }
+        ]
+    })
+    .then(dbCommentData => {
+        if (!dbCommentData) {
+            res.status(404).json({ message: 'No comment found with this id'});
+            return;
+        }
 
-})
+        res.json(dbCommentData);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
 
 // POST    /api/comments
 router.post('/', (req, res) => {
@@ -54,5 +87,51 @@ router.post('/', (req, res) => {
     });
 });
 
+// PUT   /api/comments/:id
+router.put('/:id', (req, res) => {
+    Comment.update(
+        {
+            comment_text: req.body.comment_text
+        },
+        {
+            where: {
+                id: req.params.id
+            }
+        }
+    )
+    .then(dbCommentData => {
+        if (!dbCommentData) {
+            res.status(404).json({ message: 'No comment found with this id' });
+            return;
+        }
+
+        res.json(dbCommentData)
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+})
+
+// DELETE    /api/comments/:id
+router.delete('/:id', (req, res) => {
+    Comment.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(dbCommentData => {
+        if (!dbCommentData) {
+            res.status(404).json({ message: 'No comment found with this id' });
+            return;
+        }
+
+        res.json(dbCommentData)
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
 
 module.exports = router;
