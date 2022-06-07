@@ -56,7 +56,13 @@ router.post('/', (req, res) => {
     })
     .then(dbUserData => {
         // session logic
-        res.json(dbUserData);
+        req.session.save(() => {
+            req.session.user_id = dbUserData.id;
+            req.session.username = dbUserData.username;
+            req.session.loggedIn = true;
+
+            res.json(dbUserData);
+        });
     })
     .catch(err => {
         console.log(err);
@@ -81,7 +87,7 @@ router.post('/login', (req, res) => {
         // Verify user
         const validPassword = dbUserData.checkPassword(req.body.password);
         if (!validPassword) {
-            res.status(400).json({ message: 'Incorrect password' });
+            res.status(400).json({ message: 'Incorrect password!' });
             return;
         }
 

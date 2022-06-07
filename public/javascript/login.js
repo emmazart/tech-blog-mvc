@@ -1,5 +1,3 @@
-const { sign } = require("crypto");
-
 async function signupFormHandler(event) {
     event.preventDefault();
 
@@ -10,6 +8,7 @@ async function signupFormHandler(event) {
 
     // fetch POST request to /api/users to add user to db
     if (username && email && password) {
+
         const response = await fetch('/api/users', {
             method: 'post',
             body: JSON.stringify({
@@ -19,6 +18,7 @@ async function signupFormHandler(event) {
             }),
             headers: { 'Content-Type': 'application/json' }
         });
+
         if (response.ok) {
             console.log('success');
         } else {
@@ -28,7 +28,7 @@ async function signupFormHandler(event) {
 };
 
 async function loginFormHandler(event) {
-    event.preventDefault;
+    event.preventDefault();
 
     // grab user data
     const email = document.querySelector('#email-login').value.trim();

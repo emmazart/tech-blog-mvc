@@ -4,6 +4,14 @@ const sequelize = require('../../config/connection');
 
 // homepage route
 router.get('/', (req, res) => {
+    console.log(req.session);
+
+    // if user is not logged in, redirect to login page
+    if (!req.session.loggedIn) {
+        res.redirect('/login');
+        return;
+    }
+
     BlogPost.findAll({
         attributes: ['id', 'title', 'created_at'],
         order: [['created_at', 'DESC']],
@@ -34,10 +42,13 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
+    // if user is logged in, redirect to homepage
     if (req.session.loggedIn) {
         res.redirect('/');
         return;
     }
+
+    // otherwise render login page
     res.render('login');
 });
 
