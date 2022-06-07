@@ -2,13 +2,19 @@ const router = require('express').Router();
 const { BlogPost, User, Comment } = require('../../models');
 const sequelize = require('../../config/connection');
 
-// homepage route
-router.get('/', (req, res) => {
-    console.log(req.session);
 
-    BlogPost.findAll({
-        attributes: ['id', 'title', 'created_at'],
-        order: [['created_at', 'DESC']],
+// GET    /dashboard
+router.get('/', (req, res) => {
+    // if user is not logged in, redirect to login page
+    if (!req.session.loggedIn) {
+        res.redirect('/login');
+        return;
+    }
+
+    BlogPost.findAll(req.body, {
+        where: {
+            user_id: req.session.user_id
+        },
         include: [
             {
                 model: User,
@@ -27,24 +33,18 @@ router.get('/', (req, res) => {
     .then(dbPostData => {
         // pass a single post object into the homepage template
         const blogposts = dbPostData.map(post => post.get({ plain: true }));
-        res.render('homepage', { blogposts });
+        res.render('dashboard', { blogposts });
     })
     .catch(err => {
         console.log(err);
+        res.redirect('/')
         res.status(500).json(err);
     });
 });
 
-// login route
-router.get('/login', (req, res) => {
-    // if user is logged in, redirect to homepage
-    if (req.session.loggedIn) {
-        res.redirect('/');
-        return;
-    }
+// POST    /dashboard/new
+router.post('/new', (req, res) => {
 
-    // otherwise render login page
-    res.render('login');
-});
+})
 
 module.exports = router;

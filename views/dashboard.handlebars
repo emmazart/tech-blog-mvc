@@ -1,5 +1,7 @@
+<h2>Welcome to your dashboard {{ blogposts.0 }}!</h2>
+
 <section>
-    <h2>Recent Posts</h2>
+    <h2>My Posts</h2>
     {{#each blogposts as |post|}}
     <article>
         <h3>{{post.title}}</h3>
@@ -15,4 +17,9 @@
 
     </article>
     {{/each}}
+</section>
+
+<section>
+    <h2>Add a new post</h2>
+    <a href="/dashboard/new">New Post</a>
 </section>

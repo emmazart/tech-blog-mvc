@@ -70,7 +70,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// LOGIN route
+// LOGIN route     - called in public/javascript/login.js
 router.post('/login', (req, res) => {
     // expects {email: 'lernantino@gmail.com', password: 'password1234'}
     // Query operation
@@ -102,7 +102,19 @@ router.post('/login', (req, res) => {
     });
 });
 
-// LOGOUT route
+// LOGOUT route   - called in public/javascript/logout.js
+router.post('/logout', (req, res) => {
+    // check for a session
+   if (req.session.loggedIn) {
+        // destroy the session
+        req.session.destroy(() => {
+            res.status(204).end();
+        });
+
+   } else {
+       res.status(404).end();
+   }
+});
 
 // PUT     /api/users/:id 
 router.put('/:id', (req, res) => {
