@@ -5,11 +5,13 @@ const sequelize = require('../../config/connection');
 
 // GET    /dashboard
 router.get('/', (req, res) => {
-    // if user is not logged in, redirect to login page
-    if (!req.session.loggedIn) {
-        res.redirect('/login');
-        return;
-    }
+    console.log(req.session);
+
+    // // if user is not logged in, redirect to login page
+    // if (!req.session.loggedIn) {
+    //     res.redirect('/login');
+    //     return;
+    // }
 
     BlogPost.findAll(req.body, {
         where: {

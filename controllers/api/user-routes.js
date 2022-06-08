@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { format } = require('express/lib/response');
-const { User } = require('../../models');
+const { User, BlogPost, Comment } = require('../../models');
 
 // GET     /api/users
 router.get('/', (req, res) => {
@@ -20,7 +20,17 @@ router.get('/:id', (req, res) => {
         attributes: { exclude: ['password'] },
         where: {
             id: req.params.id
-        }
+        },
+        include: [
+            {
+                model: BlogPost,
+                attributes: ['id', 'title', 'user_id'],
+                include: {
+                    model: Comment,
+                    attributes: ['id', 'comment_text', 'user_id', 'post_id']
+                }
+            }
+        ]
 
         // get user's related post and comment data
         

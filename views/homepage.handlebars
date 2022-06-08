@@ -4,6 +4,7 @@
     <article>
         <h3>{{post.title}}</h3>
         <p>Posted by: {{post.user.username}}</p>
+        <p class="created-at">{{post.created_at}}</p>
         
         {{!-- Iterate through comments array on each post --}}
         {{#each post.comments}} 
@@ -15,4 +16,8 @@
 
     </article>
     {{/each}}
+</section>
+<section>
+    {{!-- if the user has clicked on a blogpost, render this partial --}}
+    {{> singlepost}}
 </section>
